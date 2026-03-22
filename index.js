@@ -15,6 +15,9 @@ if (!fs.existsSync(downloadPath)) {
   fs.mkdirSync(downloadPath);
 }
 
+// 🔗 رابط السيرفر (مهم جداً)
+const BASE_URL = "https://video-backend-production-9293.up.railway.app";
+
 // ✅ test route
 app.get("/", (req, res) => {
   res.send("Server is working ✅");
@@ -33,7 +36,8 @@ app.post("/info", (req, res) => {
     });
   }
 
-  const command = `yt-dlp --no-playlist -j "${url}"`;
+  // ⚠️ استخدم npx بدل yt-dlp مباشرة
+  const command = `npx yt-dlp --no-playlist -j "${url}"`;
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
@@ -83,7 +87,8 @@ app.post("/download", (req, res) => {
   const fileName = `video_${Date.now()}.mp4`;
   const filePath = path.join(downloadPath, fileName);
 
-  const command = `yt-dlp -f best -o "${filePath}" "${url}"`;
+  // ⚠️ نفس الشي هون
+  const command = `npx yt-dlp -f best -o "${filePath}" "${url}"`;
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
@@ -97,7 +102,7 @@ app.post("/download", (req, res) => {
 
     res.json({
       success: true,
-      file: `https://YOUR-APP.up.railway.app/downloads/${fileName}`,
+      file: `${BASE_URL}/downloads/${fileName}`,
     });
   });
 });
