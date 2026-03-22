@@ -37,7 +37,7 @@ app.post("/info", (req, res) => {
   }
 
   // ⚠️ استخدم npx بدل yt-dlp مباشرة
-  const command = `npx yt-dlp --no-playlist -j "${url}"`;
+  const command = `python3 -m yt_dlp --no-playlist -j "${url}"`;
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
@@ -88,7 +88,7 @@ app.post("/download", (req, res) => {
   const filePath = path.join(downloadPath, fileName);
 
   // ⚠️ نفس الشي هون
-  const command = `npx yt-dlp -f best -o "${filePath}" "${url}"`;
+  const command = `python3 -m yt_dlp -f best -o "${filePath}" "${url}"`;
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
